@@ -1,3 +1,3 @@
-# nodo
+# redo
 
-nodo is a todo list and a notebook
+redo is a todo list and a notebook
