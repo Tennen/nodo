@@ -1,0 +1,28 @@
+PODS:
+  - FMDB (2.7.5):
+    - FMDB/standard (= 2.7.5)
+  - FMDB/standard (2.7.5)
+  - Kingfisher (5.14.1):
+    - Kingfisher/Core (= 5.14.1)
+  - Kingfisher/Core (5.14.1)
+  - SideMenu (6.4.9)
+
+DEPENDENCIES:
+  - FMDB
+  - Kingfisher (~> 5.0)
+  - SideMenu
+
+SPEC REPOS:
+  trunk:
+    - FMDB
+    - Kingfisher
+    - SideMenu
+
+SPEC CHECKSUMS:
+  FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
+  Kingfisher: 8050bc6f7f68cbf3908bd04df7ccbac188f6d6d6
+  SideMenu: 8ef57a3cfc024a2d3fc1c036c7fe98537baec9e0
+
+PODFILE CHECKSUM: 6af082f944179bfa5907e6986afa89629476b5d3
+
+COCOAPODS: 1.9.3
