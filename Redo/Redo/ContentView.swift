@@ -14,6 +14,9 @@ struct ContentView: View {
     
     func onSwitchMenu (key: MenuKey) {
         activatedMenu = key
+        withAnimation {
+            showMenu = false
+        }
     }
     
     init () {
@@ -26,29 +29,28 @@ struct ContentView: View {
     var body: some View {
         GeometryReader { geometry in
             let drag = DragGesture().onEnded{
-                if $0.translation.width < -100 {
+                if $0.translation.width < -50 {
                     withAnimation {
                         self.showMenu = false
                     }
                     return
                 }
-                if $0.startLocation.x < 10 && $0.translation.width > 100 {
+                if $0.startLocation.x < 10 && $0.translation.width > 50 {
                     withAnimation {
                         self.showMenu = true
                     }
                     return
                 }
             }
-            ZStack(alignment: .leading) {
+            ZStack(alignment: .topLeading) {
                 VStack(alignment: .leading) {
                     switch (activatedMenu) {
                         case .TODO:
-                            TodoList()
+                            TodoList().padding(.horizontal)
                         case .POINT:
                             PointBreak()
                     }
                 }.disabled(showMenu)
-                .padding(.horizontal)
                 .frame(width: geometry.size.width, height: geometry.size.height)
                 .offset(x: showMenu ? geometry.size.width/2 : 0)
                 .onTapGesture {
@@ -56,6 +58,7 @@ struct ContentView: View {
                         showMenu = false
                     }
                 }
+                .frame(width: geometry.size.width, height: geometry.size.height)
                 if showMenu {
                     MenuView(onSwitchMenu: onSwitchMenu)
                         .frame(width: geometry.size.width/2)

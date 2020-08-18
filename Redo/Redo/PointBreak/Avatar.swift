@@ -9,7 +9,7 @@ import SwiftUI
 
 struct Avatar: View {
     var body: some View {
-        _KFImage("makima.jpg")
+        Image("makima.jpg")
             .clipShape(Circle())
             .overlay(
                 Circle().stroke(Color.white, lineWidth: 4))

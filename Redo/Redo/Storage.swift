@@ -20,6 +20,8 @@ public class Storage {
         database = FMDatabase(path: databaseURL.absoluteString)        
         database.open()
         database.executeUpdate("create table if not exists todos (id TEXT, content TEXT, isDone NUMERIC);", withArgumentsIn: [])
+        database.executeUpdate("create table if not exists members (id TEXT, name TEXT);", withArgumentsIn: [])
+        database.executeUpdate("create table if not exists master_log (id TEXT);", withArgumentsIn: [])
     }
     
     public func loadTodos() -> [Todo] {
@@ -46,6 +48,27 @@ public class Storage {
     
     public func deleteTodo(id: UUID) {
         database.executeUpdate("DELETE FROM todos WHERE id = ?", withArgumentsIn: [id.uuidString])
+    }
+    
+    public func loadMembers() -> [Member] {
+        var members:[Member] = []
+        if let result = database.executeQuery("SELECT * FROM members", withArgumentsIn: []) {
+            while result.next() {
+                let member = Member()
+                member.id = UUID(uuidString: result.string(forColumnIndex: 0) ?? UUID().uuidString) ?? UUID()
+                member.name = result.string(forColumnIndex: 1) ?? ""
+                members.append(member)
+            }
+        }
+        return members
+    }
+    
+    public func insertMember(id: UUID, name: String) {
+        database.executeUpdate("INSERT INTO members VALUES (?, ?)", withArgumentsIn: [id.uuidString, name])
+    }
+    
+    public func deleteMember(id: UUID) {
+        database.executeUpdate("DELETE FROM members WHERE id = ?", withArgumentsIn: [id.uuidString])
     }
 
 }

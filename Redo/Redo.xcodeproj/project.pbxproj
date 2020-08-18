@@ -18,6 +18,8 @@
 		A72575AC24D59E3200D9B397 /* RedoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72575AB24D59E3200D9B397 /* RedoTests.swift */; };
 		A72575B724D59E3200D9B397 /* RedoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72575B624D59E3200D9B397 /* RedoUITests.swift */; };
 		A72575CF24D5AE4C00D9B397 /* TodoList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72575CE24D5AE4C00D9B397 /* TodoList.swift */; };
+		A730EB9324EB777E008D402C /* Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = A730EB9224EB777E008D402C /* Member.swift */; };
+		A730EB9524EB779D008D402C /* MasterLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = A730EB9424EB779D008D402C /* MasterLog.swift */; };
 		A740EAA924E93C2B00092851 /* KFImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A740EAA824E93C2B00092851 /* KFImage.swift */; };
 		A74D4C6F24E4475100A23ECD /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74D4C6E24E4475100A23ECD /* File.swift */; };
 		A75643FA24DCF0E100B5EC7E /* makima.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A75643F924DCF0E100B5EC7E /* makima.jpg */; };
@@ -72,6 +74,8 @@
 		A72575B624D59E3200D9B397 /* RedoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedoUITests.swift; sourceTree = "<group>"; };
 		A72575B824D59E3200D9B397 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A72575CE24D5AE4C00D9B397 /* TodoList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoList.swift; sourceTree = "<group>"; };
+		A730EB9224EB777E008D402C /* Member.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Member.swift; sourceTree = "<group>"; };
+		A730EB9424EB779D008D402C /* MasterLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterLog.swift; sourceTree = "<group>"; };
 		A740EAA624E93B7300092851 /* Kingfisher.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Kingfisher.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A740EAA824E93C2B00092851 /* KFImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KFImage.swift; sourceTree = "<group>"; };
 		A74D4C6E24E4475100A23ECD /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
@@ -261,6 +265,8 @@
 			isa = PBXGroup;
 			children = (
 				A71006DA24E0E15000BB9A4C /* Todo.swift */,
+				A730EB9224EB777E008D402C /* Member.swift */,
+				A730EB9424EB779D008D402C /* MasterLog.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -517,8 +523,10 @@
 				A7862CEB24E4E0B000D7C7D0 /* SwipeNavigationController.swift in Sources */,
 				A75643FE24DCF9C400B5EC7E /* InputView.swift in Sources */,
 				A7DBA9BB24E0136A00196CA2 /* SceneDelegate.swift in Sources */,
+				A730EB9524EB779D008D402C /* MasterLog.swift in Sources */,
 				A74D4C6F24E4475100A23ECD /* File.swift in Sources */,
 				A70C5F6724E13EB200276966 /* Storage.swift in Sources */,
+				A730EB9324EB777E008D402C /* Member.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
