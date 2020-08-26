@@ -2,69 +2,72 @@ import SwiftUI
 import CoreData
 import Foundation
 
+class TodoState: ObservableObject {
+    @Published var todos: [Todo] = []
+    @Published var selectedTodo: Todo?
+}
 
 struct TodoList: View {
-    @State var todos: [Todo] = []
-    @State private var showModal: Bool = false
-    @State var selectedTodo: Todo?
+    @ObservedObject var todoState = TodoState()
+    @State private var editMode = EditMode.inactive
     
     func initTodos() {
-        if !todos.isEmpty {
+        if !todoState.todos.isEmpty {
             return
         }
-        todos = todoStore.loadTodos()
+        todoState.todos = todoStore.loadTodos()
     }
     
     func cancelInput() {
-        selectedTodo = nil;
-        showModal = false
+        todoState.selectedTodo = nil
     }
     
     func insertTodo(todo: Todo) {
         todoStore.insertTodo(id: todo.id, content: todo.content, isDone: todo.isDone)
     }
     
-    func onInputDone(value: String) {
+    func onInputDone(value: String, todo: Todo) {
         if (value == "") {
-            selectedTodo = nil;
-            showModal = false
+            cancelInput()
             return
         }
-        if (selectedTodo == nil) {
-            let todo = Todo()
-            todo.content = value
-            insertTodo(todo: todo)
-            todos.append(todo)
+        if ((todoState.todos.firstIndex(where: { $0.id == todo.id })) == nil) {
+            todoState.selectedTodo!.content = value
+            insertTodo(todo: todoState.selectedTodo!)
+            todoState.todos.append(todoState.selectedTodo!)
         } else {
-            for index in self.todos.indices {
-                if todos[index].id == selectedTodo?.id {
-                    todos[index].content = value
-                    todoStore.updateTodo(id: selectedTodo!.id, content: value, isDone: todos[index].isDone)
-                }
-            }
+            todoState.selectedTodo!.content = value
+            todoStore.updateTodo(id: todoState.selectedTodo!.id, content: value, isDone: todoState.selectedTodo!.isDone)
         }
-        selectedTodo = nil;
-        showModal = false
+        cancelInput()
     }
     
     func onAdd() {
-        showModal = true
-        selectedTodo = nil
+        todoState.selectedTodo = Todo()
     }
     
     func onCheck(id: UUID, checked: Bool) {
-        for index in self.todos.indices {
-            if todos[index].id == id {
-                todos[index].isDone = checked
-                todoStore.updateTodo(id: id, content: todos[index].content, isDone: checked)
+        for index in todoState.todos.indices {
+            if todoState.todos[index].id == id {
+                todoState.todos[index].isDone = checked
+                todoStore.updateTodo(id: id, content: todoState.todos[index].content, isDone: checked)
             }
         }
+
     }
     
-    func onDelete(indexSet: IndexSet) {
-        let idToRemove = todos[indexSet.first!].id
-        todos.remove(atOffsets: indexSet)
+    func onDelete(_ indexSet: IndexSet) {
+        let idToRemove = todoState.todos[indexSet.first!].id
+        todoState.todos.remove(atOffsets: indexSet)
         todoStore.deleteTodo(id: idToRemove)
+    }
+    
+    func onClickText(_ todo: Todo) {
+        todoState.selectedTodo = todo
+    }
+    
+    func move(from source: IndexSet, to destination: Int) {
+        todoState.todos.move(fromOffsets: source, toOffset: destination)
     }
     
     init () {
@@ -77,19 +80,30 @@ struct TodoList: View {
     var body: some View {
         NavigationView {
             ZStack(alignment: .bottom) {
-                ScrollView {
-                    ForEach(self.todos, id: \.id) { todo in
-                        CheckboxFieldView(todo: todo, onClickText: {
-                                selectedTodo = todo
-                                showModal = true
-                            },
-                            onCheck: onCheck
-                        )
-                    }
+                VStack {
+                    List {
+                        ForEach(todoState.todos.filter{!$0.isDone}, id: \.id) { todo in
+                            CheckboxFieldView(todo: todo,
+                                  onClickText: {
+                                    onClickText(todo)
+                                  },
+                                onCheck: onCheck
+                            )
+                        }.onDelete(perform: { indexSet in
+                            onDelete(indexSet)
+                        }).onMove(perform: move)
+                        ForEach(todoState.todos.filter{$0.isDone}, id: \.id) { todo in
+                            CheckboxFieldView(todo: todo,
+                                  onClickText: {
+                                    onClickText(todo)
+                                  },
+                                onCheck: onCheck
+                            )
+                        }.onDelete(perform: { indexSet in
+                            onDelete(indexSet)
+                        })
+                    }.environment(\.editMode, $editMode)
                 }
-                .padding(.bottom, 50)
-//                .padding(.horizontal)
-                .onAppear(perform: { self.initTodos() })
                 HStack(spacing: 10) {
                     Button(action: onAdd) {
                         Image(systemName: "plus")
@@ -97,10 +111,22 @@ struct TodoList: View {
                             .frame(width: 50, height: 50)
                     }
                 }
-            }.sheet(isPresented: $showModal){
-                InputView(onDone: onInputDone, onCancel: cancelInput,data: $selectedTodo)
+            }.sheet(item: $todoState.selectedTodo){ todo in
+                InputView(onDone: {
+                    onInputDone(value: $0, todo: todo)
+                }, onCancel: cancelInput,content: todo.content)
             }
             .navigationBarTitle("Redo")
+            .navigationBarItems(leading: EditButton())
+            .onAppear(perform: {
+                initTodos()
+            })
         }
+    }
+}
+
+struct TodoList_Previews: PreviewProvider {
+    static var previews: some View {
+        TodoList()
     }
 }

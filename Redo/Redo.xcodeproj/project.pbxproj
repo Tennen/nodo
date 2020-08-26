@@ -11,6 +11,8 @@
 		5CF67D4769D0B3E2B98D5C39 /* Pods_RedoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EC327C9308B9C0456E98C86 /* Pods_RedoTests.framework */; };
 		655485B7F970A5B701DE2672 /* Pods_Redo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48ED0A4335591161EB833E46 /* Pods_Redo.framework */; };
 		A70C5F6724E13EB200276966 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70C5F6624E13EB200276966 /* Storage.swift */; };
+		A70D11A024EE80A7004D306C /* Slot.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70D119F24EE80A7004D306C /* Slot.swift */; };
+		A70D11A224F00ADB004D306C /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70D11A124F00ADB004D306C /* Timer.swift */; };
 		A71006DB24E0E15000BB9A4C /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71006DA24E0E15000BB9A4C /* Todo.swift */; };
 		A725759A24D59E3100D9B397 /* RedoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A725759924D59E3100D9B397 /* RedoApp.swift */; };
 		A725759E24D59E3200D9B397 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A725759D24D59E3200D9B397 /* Assets.xcassets */; };
@@ -61,6 +63,8 @@
 		7E4C425FBBD66EBB07262450 /* Pods-Redo-RedoUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Redo-RedoUITests.release.xcconfig"; path = "Target Support Files/Pods-Redo-RedoUITests/Pods-Redo-RedoUITests.release.xcconfig"; sourceTree = "<group>"; };
 		A04973DA70EE001173427B1F /* Pods-Redo-RedoUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Redo-RedoUITests.debug.xcconfig"; path = "Target Support Files/Pods-Redo-RedoUITests/Pods-Redo-RedoUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		A70C5F6624E13EB200276966 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
+		A70D119F24EE80A7004D306C /* Slot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Slot.swift; sourceTree = "<group>"; };
+		A70D11A124F00ADB004D306C /* Timer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
 		A71006DA24E0E15000BB9A4C /* Todo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Todo.swift; sourceTree = "<group>"; };
 		A725759624D59E3100D9B397 /* Redo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Redo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A725759924D59E3100D9B397 /* RedoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedoApp.swift; sourceTree = "<group>"; };
@@ -182,6 +186,7 @@
 			children = (
 				A725759924D59E3100D9B397 /* RedoApp.swift */,
 				A79C7C1224E3EAC8005003B4 /* Menu.swift */,
+				A730EB9624ECC63F008D402C /* Components */,
 				A7DBA9C124E01FAE00196CA2 /* ContentView.swift */,
 				A70C5F6824E1A7BF00276966 /* Helpers */,
 				A70C5F6624E13EB200276966 /* Storage.swift */,
@@ -228,7 +233,6 @@
 			isa = PBXGroup;
 			children = (
 				A75643FB24DCF22E00B5EC7E /* CheckboxField.swift */,
-				A75643FD24DCF9C400B5EC7E /* InputView.swift */,
 				A72575CE24D5AE4C00D9B397 /* TodoList.swift */,
 			);
 			path = TodoList;
@@ -241,6 +245,14 @@
 				A7CD645B24D8162A007042A1 /* landmarkData.json */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		A730EB9624ECC63F008D402C /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				A75643FD24DCF9C400B5EC7E /* InputView.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 		A74D4C6D24E4474300A23ECD /* Constants */ = {
@@ -256,6 +268,8 @@
 			children = (
 				A76A7C8924E522F1000F8818 /* PointBreak.swift */,
 				A756679724E5993C008BA893 /* MemberView.swift */,
+				A70D119F24EE80A7004D306C /* Slot.swift */,
+				A70D11A124F00ADB004D306C /* Timer.swift */,
 				A756679924E59980008BA893 /* Avatar.swift */,
 			);
 			path = PointBreak;
@@ -511,12 +525,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				A756679824E5993C008BA893 /* MemberView.swift in Sources */,
+				A70D11A024EE80A7004D306C /* Slot.swift in Sources */,
 				A75643FC24DCF22E00B5EC7E /* CheckboxField.swift in Sources */,
 				A7DBA9C224E01FAE00196CA2 /* ContentView.swift in Sources */,
 				A72575CF24D5AE4C00D9B397 /* TodoList.swift in Sources */,
 				A756679A24E59980008BA893 /* Avatar.swift in Sources */,
 				A725759A24D59E3100D9B397 /* RedoApp.swift in Sources */,
 				A740EAA924E93C2B00092851 /* KFImage.swift in Sources */,
+				A70D11A224F00ADB004D306C /* Timer.swift in Sources */,
 				A79C7C1324E3EAC8005003B4 /* Menu.swift in Sources */,
 				A71006DB24E0E15000BB9A4C /* Todo.swift in Sources */,
 				A76A7C8A24E522F1000F8818 /* PointBreak.swift in Sources */,

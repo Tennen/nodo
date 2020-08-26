@@ -13,9 +13,11 @@ struct ContentView: View {
     @State var activatedMenu: MenuKey = .TODO
     
     func onSwitchMenu (key: MenuKey) {
-        activatedMenu = key
         withAnimation {
             showMenu = false
+        }
+        withAnimation {
+            activatedMenu = key
         }
     }
     
@@ -46,21 +48,16 @@ struct ContentView: View {
                 VStack(alignment: .leading) {
                     switch (activatedMenu) {
                         case .TODO:
-                            TodoList().padding(.horizontal)
+                            TodoList()
                         case .POINT:
                             PointBreak()
                     }
                 }.disabled(showMenu)
                 .frame(width: geometry.size.width, height: geometry.size.height)
                 .offset(x: showMenu ? geometry.size.width/2 : 0)
-                .onTapGesture {
-                    withAnimation {
-                        showMenu = false
-                    }
-                }
                 .frame(width: geometry.size.width, height: geometry.size.height)
                 if showMenu {
-                    MenuView(onSwitchMenu: onSwitchMenu)
+                    MenuView(activatedMenu: $activatedMenu, onSwitchMenu: onSwitchMenu)
                         .frame(width: geometry.size.width/2)
                 }
             }.gesture(drag)

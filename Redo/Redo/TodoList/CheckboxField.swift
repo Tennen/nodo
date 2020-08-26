@@ -25,27 +25,8 @@ struct CheckboxFieldView : View {
                 .onTapGesture {
                     onClickText?()
                 }
-            Button(action: {}) {
-                Text("Delete")
-                    .background(Color.red)
-                    .foregroundColor(Color.white)
-                    .fixedSize()
-                    .frame(height: 80)
-            }.offset(x: showDelete ? 0 : 200)
         }
         .frame(height: 40)
-        .gesture(DragGesture().onEnded{
-            if $0.translation.width < -100 {
-                withAnimation {
-                    showDelete = true
-                }
-            }
-            if $0.translation.width > 100 {
-                withAnimation {
-                    showDelete = false
-                }
-            }
-        })
     }
 
 }

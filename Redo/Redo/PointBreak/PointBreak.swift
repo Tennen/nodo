@@ -10,16 +10,17 @@ import Foundation
 
 struct PointBreak: View {
     @State var members: [Member] = []
+    @State var showModal: Bool = false
     @State var name: String = ""
     func loadMembers() {
-        if members.isEmpty {
+        if !members.isEmpty {
             return
         }
         members = todoStore.loadMembers()
         
     }
     
-    func addMember() {
+    func onInputDone() {
         if (name == "") {
             return
         }
@@ -30,48 +31,66 @@ struct PointBreak: View {
             members.append(member)
         }
         todoStore.insertMember(id: member.id, name: member.name)
-        name = ""
+        cancelInput()
     }
     
-    func removeMember(member: Member) {
-        withAnimation {
-            members = members.filter({
-                $0.id != member.id
-            })
-        }
-        todoStore.deleteMember(id: member.id)
+    func cancelInput() {
+        name = ""
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+    
+    func removeMember(index: IndexSet) {
+        let memberId = members[index.first!].id
+        members.remove(atOffsets: index)
+        todoStore.deleteMember(id: memberId)
+    }
+    
+    func onShuffle() {
+        showModal = true
+    }
+    
+    init () {
+        let barAppearance = UINavigationBar.appearance()
+        barAppearance.titleTextAttributes = [.foregroundColor:baseUIColor]
+        barAppearance.largeTitleTextAttributes = [.foregroundColor:baseUIColor]
+        barAppearance.barTintColor = UIColor.white
     }
     
     var body: some View {
         NavigationView {
-            VStack {
-                Text("Ramdom大法")
-                HStack {
-                    TextField("Enter name", text: $name)
-                    Button(action: addMember) {
-                        Text("确认")
-                    }
-                }
-                .padding(.horizontal)
-                List {
-                    ForEach(members, id: \.id) { member in
-                        HStack {
-                            Text(member.name)
-                            Spacer()
-                            Button(action: {
-                                removeMember(member: member)
-                            }) {
-                                Text("Delete")
-                                    .foregroundColor(.red)
-                            }
+            ZStack(alignment: .bottom) {
+                VStack {
+                    Spacer()
+                    HStack {
+                        TextField("Enter member name", text: $name)
+                        Button(action: onInputDone) {
+                            Text("Add")
+                                .foregroundColor(baseColor)
                         }
+                    }.padding(.horizontal)
+                    List {
+                        ForEach(0..<members.count, id: \.self) { index in
+                            HStack {
+                                Text(members[index].name)
+                            }
+                        }.onDelete(perform: { indexSet in
+                            removeMember(index: indexSet)
+                        })
                     }
+                    HStack(spacing: 10) {
+                        Spacer()
+                        Button(action: onShuffle) {
+                            Text("Slot")
+                                .foregroundColor(baseColor)
+                        }
+                        Spacer()
+                    }.frame(height: 50)
                 }
-                Spacer()
             }
-            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0,  maxHeight: .infinity)
+            .navigationBarTitle("Master Slot")
+        }.sheet(isPresented: $showModal){
+            SlotView(data: $members)
         }
-        .navigationTitle("Point Break")
         .onAppear(perform: loadMembers)
     }
 }

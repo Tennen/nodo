@@ -11,7 +11,7 @@ struct InputView: View {
     @State var text: String = "";
     var onDone: ((_ value: String) -> Void)? = nil;
     var onCancel: (() -> Void)? = nil;
-    @Binding var data: Todo?
+    var content: String = ""
 
     var body: some View {
         VStack {
@@ -38,9 +38,7 @@ struct InputView: View {
         }.padding(10)
         .navigationBarHidden(true)
         .onAppear(perform: {
-            if let content = data?.content {
-                text = content
-            }
+            text = content
         })
     }
 }

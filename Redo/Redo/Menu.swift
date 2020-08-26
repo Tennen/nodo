@@ -15,7 +15,7 @@ let MenuItems = [MenuItem(key: .TODO, label: "Todo", tag: "tag"),
                  MenuItem(key: .POINT, label: "Point", tag: "heart.slash.circle")]
 
 struct MenuView: View {
-    @State var activatedMenu: MenuKey = .TODO
+    @Binding var activatedMenu: MenuKey
     var onSwitchMenu: ((_ key: MenuKey) -> Void)? = nil
     var body: some View {
         VStack(alignment: .leading) {
@@ -36,7 +36,6 @@ struct MenuView: View {
                 .onTapGesture {
                     withAnimation {
                         onSwitchMenu?(item.key)
-                        activatedMenu = item.key
                     }
                 }
             }
@@ -48,8 +47,8 @@ struct MenuView: View {
     }
 }
 
-struct Menu_Previews: PreviewProvider {
-    static var previews: some View {
-        MenuView()
-    }
-}
+//struct Menu_Previews: PreviewProvider {
+//    static var previews: some View {
+//        MenuView()
+//    }
+//}
