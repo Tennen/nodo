@@ -9,7 +9,6 @@ class TodoState: ObservableObject {
 
 struct TodoList: View {
     @ObservedObject var todoState = TodoState()
-    @State private var editMode = EditMode.inactive
     
     func initTodos() {
         if !todoState.todos.isEmpty {
@@ -51,13 +50,14 @@ struct TodoList: View {
             if todoState.todos[index].id == id {
                 todoState.todos[index].isDone = checked
                 todoStore.updateTodo(id: id, content: todoState.todos[index].content, isDone: checked)
+                todoState.objectWillChange.send()
             }
         }
 
     }
     
-    func onDelete(_ indexSet: IndexSet) {
-        let idToRemove = todoState.todos[indexSet.first!].id
+    func onDelete(_ indexSet: IndexSet, _ done: Bool) {
+        let idToRemove = todoState.todos.filter{$0.isDone == done}[indexSet.first!].id
         todoState.todos.remove(atOffsets: indexSet)
         todoStore.deleteTodo(id: idToRemove)
     }
@@ -90,7 +90,7 @@ struct TodoList: View {
                                 onCheck: onCheck
                             )
                         }.onDelete(perform: { indexSet in
-                            onDelete(indexSet)
+                            onDelete(indexSet, false)
                         }).onMove(perform: move)
                         ForEach(todoState.todos.filter{$0.isDone}, id: \.id) { todo in
                             CheckboxFieldView(todo: todo,
@@ -100,9 +100,9 @@ struct TodoList: View {
                                 onCheck: onCheck
                             )
                         }.onDelete(perform: { indexSet in
-                            onDelete(indexSet)
+                            onDelete(indexSet, true)
                         })
-                    }.environment(\.editMode, $editMode)
+                    }
                 }
                 HStack(spacing: 10) {
                     Button(action: onAdd) {
@@ -117,7 +117,6 @@ struct TodoList: View {
                 }, onCancel: cancelInput,content: todo.content)
             }
             .navigationBarTitle("Redo")
-            .navigationBarItems(leading: EditButton())
             .onAppear(perform: {
                 initTodos()
             })
